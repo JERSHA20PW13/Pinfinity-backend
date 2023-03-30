@@ -8,13 +8,13 @@ const storage = new GridFsStorage({
     const match = ["image/png", "image/jpeg"];
 
     if (match.indexOf(file.mimetype) === -1) {
-      const filename = `pinfinity-${req.body.userid}`;
+      const filename = `${req.body.userid}`;
       return filename;
     }
 
     return {
       bucketName: "profile",
-      filename: `pinfinity-${req.body.userid}`,
+      filename: `${req.body.userid}`,
     };
   },
 });
