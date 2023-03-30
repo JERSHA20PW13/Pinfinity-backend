@@ -23,6 +23,16 @@ router.post("/add-user", upload.single("profile"), (req, res) => {
   res.send("User added");
 });
 
+router.get("/get-user/:userid", (req, res) => {
+  UserModel.findOne({ userid: req.params.userid })
+    .then((docs) => {
+      res.send(docs);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
 router.get("/get-profile/:filename", async (req, res) => {
   try {
     const readstream = gfsBucket.openDownloadStreamByName(req.params.filename);
