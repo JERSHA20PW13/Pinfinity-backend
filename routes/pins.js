@@ -50,4 +50,14 @@ router.get("/get-pin/:filename/*", (req, res) => {
   }
 });
 
+router.get("/get-all-pins", (req, res) => {
+  PinsModel.find()
+    .then((docs) => {
+      res.send(docs);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
 module.exports = router;
