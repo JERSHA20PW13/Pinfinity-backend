@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   username: String,
   about: String,
   profile: Buffer,
+  profileUri: String,
 });
 
 const UserModel = mongoose.model("UserModel", userSchema);

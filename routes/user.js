@@ -19,6 +19,8 @@ router.post("/add-user", send.none(), (req, res) => {
     surname: req.body.surname,
     username: req.body.username,
     about: req.body.about,
+    profileUri:
+      "https://www.nicepng.com/png/full/136-1366211_group-of-10-guys-login-user-icon-png.png",
   });
   document.save();
   res.send("User added");
@@ -33,6 +35,11 @@ router.put("/update-user/:userid", upload.single("profile"), (req, res) => {
       username: req.body.username,
       about: req.body.about,
       profile: req.profile,
+      profileUri:
+        "http://pinfinity.onrender.com/user/get-profile/" +
+        req.params.userid +
+        "/" +
+        Date.now(),
     }
   )
     .then((docs) => {
