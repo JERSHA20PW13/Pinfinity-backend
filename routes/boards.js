@@ -25,7 +25,7 @@ router.put("/update-boards/:boardid", multer().none(), (req, res) => {
     }
   )
     .then((docs) => {
-      res.send(docs);
+      res.send("Board updated");
     })
     .catch((err) => {
       console.error(err);
@@ -35,14 +35,12 @@ router.put("/update-boards/:boardid", multer().none(), (req, res) => {
 router.get("/get-boards/:userid", (req, res) => {
   BoardModel.find({ userid: req.params.userid })
     .then((docs) => {
-      console.log(docs);
       const promises = docs.map((board) => {
         const pins = [];
         const promiseArray = [];
         board.pinids.forEach((pinid) => {
-          const promise = PinsModel.find({ pinid: pinid })
+          const promise = PinsModel.findOne({ pinid: pinid })
             .then((pin) => {
-              console.log(pin);
               pins.push(pin);
             })
             .catch((err) => {
@@ -58,7 +56,6 @@ router.get("/get-boards/:userid", (req, res) => {
         }));
       });
       Promise.all(promises).then((result) => {
-        console.log(result);
         res.send(result);
       });
     })

@@ -42,7 +42,7 @@ router.put("/update-user/:userid", upload.single("profile"), (req, res) => {
     }
   )
     .then((docs) => {
-      res.send(docs);
+      res.send("User updated");
     })
     .catch((err) => {
       console.error(err);
