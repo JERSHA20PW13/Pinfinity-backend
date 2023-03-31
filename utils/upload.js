@@ -8,13 +8,12 @@ const storage = new GridFsStorage({
     const match = ["image/png", "image/jpeg"];
 
     if (match.indexOf(file.mimetype) === -1) {
-      const filename = `${req.body.userid}`;
+      const filename = `${req.params.userid}`;
       return filename;
     }
-
     return {
       bucketName: "profile",
-      filename: `${req.body.userid}`,
+      filename: `${req.params.userid}`,
     };
   },
 });

@@ -5,22 +5,42 @@ const mongodb = require("mongodb");
 const UserModel = require("../models/UserModel");
 const upload = require("../utils/upload");
 const db = require("../database");
+const multer = require("multer");
+const send = multer();
 
 const gfsBucket = new mongodb.GridFSBucket(db, {
   bucketName: "profile",
 });
 
-router.post("/add-user", upload.single("profile"), (req, res) => {
+router.post("/add-user", send.none(), (req, res) => {
   const document = new UserModel({
     userid: req.body.userid,
     firstname: req.body.firstname,
     surname: req.body.surname,
     username: req.body.username,
     about: req.body.about,
-    profileImage: req.profile,
   });
   document.save();
   res.send("User added");
+});
+
+router.put("/update-user/:userid", upload.single("profile"), (req, res) => {
+  UserModel.findOneAndUpdate(
+    { userid: req.params.userid },
+    {
+      firstname: req.body.firstname,
+      surname: req.body.surname,
+      username: req.body.username,
+      about: req.body.about,
+      profile: req.profile,
+    }
+  )
+    .then((docs) => {
+      res.send(docs);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 });
 
 router.get("/get-user/:userid", (req, res) => {
@@ -33,7 +53,7 @@ router.get("/get-user/:userid", (req, res) => {
     });
 });
 
-router.get("/get-profile/:filename", async (req, res) => {
+router.get("/get-profile/:filename/*", async (req, res) => {
   try {
     const readstream = gfsBucket.openDownloadStreamByName(req.params.filename);
     readstream.pipe(res);

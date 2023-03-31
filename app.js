@@ -9,8 +9,10 @@ const user = require("./routes/user");
 
 const app = express();
 app.use(cors());
+
 const port = process.env.PORT || 8000;
 
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
