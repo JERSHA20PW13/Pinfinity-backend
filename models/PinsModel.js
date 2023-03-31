@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const pinsSchema = new mongoose.Schema({
   userid: String,
+  pinid: String,
   title: String,
   description: String,
   pin: Buffer,

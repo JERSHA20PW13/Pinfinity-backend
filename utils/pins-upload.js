@@ -6,14 +6,14 @@ const storage = new GridFsStorage({
   options: { useNewUrlParser: true, useUnifiedTopology: true },
   file: (req, file) => {
     const match = ["image/png", "image/jpeg"];
-
+    console.log(req.body);
     if (match.indexOf(file.mimetype) === -1) {
-      const filename = `${req.params.userid}-pins-` + Date.now();
+      const filename = `${req.body.userid}-pins-${req.body.pinid}`;
       return filename;
     }
     return {
       bucketName: "pins",
-      filename: `${req.params.userid}-pins-` + Date.now(),
+      filename: `${req.body.userid}-pins-${req.body.pinid}`,
     };
   },
 });

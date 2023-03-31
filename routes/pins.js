@@ -1,18 +1,28 @@
 const express = require("express");
 const router = express.Router();
+const mongodb = require("mongodb");
+const multer = require("multer");
 
 const upload = require("../utils/pins-upload");
 const PinsModel = require("../models/PinsModel");
+const db = require("../database");
+
+const gfsBucket = new mongodb.GridFSBucket(db, {
+  bucketName: "pins",
+});
 
 router.post("/create-pin", upload.single("pin"), (req, res) => {
   const document = new PinsModel({
     userid: req.body.userid,
+    pinid: req.body.pinid,
     title: req.body.title,
     description: req.body.description,
     pinUri:
-      "http://pinfinity.onrender.com/user/get-profile/" +
+      "https://pinfinity.onrender.com/pins/get-pin/" +
       req.body.userid +
-      "/pins/" +
+      "-pins-" +
+      req.body.pinid +
+      "/" +
       Date.now(),
     pin: req.pin,
   });
@@ -28,6 +38,16 @@ router.get("/get-pins/:userid", (req, res) => {
     .catch((err) => {
       console.error(err);
     });
+});
+
+router.get("/get-pin/:filename/*", (req, res) => {
+  try {
+    const readstream = gfsBucket.openDownloadStreamByName(req.params.filename);
+    readstream.pipe(res);
+  } catch (error) {
+    console.log(error);
+    res.send("Error");
+  }
 });
 
 module.exports = router;

@@ -35,7 +35,7 @@ router.put("/update-user/:userid", upload.single("profile"), (req, res) => {
       about: req.body.about,
       profile: req.profile,
       profileUri:
-        "http://pinfinity.onrender.com/user/get-profile/" +
+        "https://pinfinity.onrender.com/user/get-profile/" +
         req.params.userid +
         "/" +
         Date.now(),
