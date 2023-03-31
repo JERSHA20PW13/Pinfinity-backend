@@ -6,6 +6,7 @@ var cors = require("cors");
 
 const connection = require("./database");
 const user = require("./routes/user");
+const pins = require("./routes/pins");
 
 const app = express();
 app.use(cors());
@@ -21,10 +22,11 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  res.send("User Service");
+  res.send("Pinfinity");
 });
 
 app.use("/user", user);
+app.use("/pins", pins);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

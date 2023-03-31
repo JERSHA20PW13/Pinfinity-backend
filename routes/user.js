@@ -1,18 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const mongodb = require("mongodb");
+const multer = require("multer");
 
 const UserModel = require("../models/UserModel");
-const upload = require("../utils/upload");
+const upload = require("../utils/profile-upload");
 const db = require("../database");
-const multer = require("multer");
-const send = multer();
 
 const gfsBucket = new mongodb.GridFSBucket(db, {
   bucketName: "profile",
 });
 
-router.post("/add-user", send.none(), (req, res) => {
+router.post("/add-user", multer().none(), (req, res) => {
   const document = new UserModel({
     userid: req.body.userid,
     firstname: req.body.firstname,
