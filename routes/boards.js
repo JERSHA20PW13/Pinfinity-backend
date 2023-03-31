@@ -64,4 +64,29 @@ router.get("/get-boards/:userid", (req, res) => {
     });
 });
 
+router.delete("/delete-board/:boardid", (req, res) => {
+  BoardModel.findOneAndDelete({ boardid: req.params.boardid })
+    .then((docs) => {
+      res.send("Board deleted");
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
+router.put("/update-board/:boardid", multer().none(), (req, res) => {
+  BoardModel.findOneAndUpdate(
+    { boardid: req.params.boardid },
+    {
+      title: req.body.title,
+    }
+  )
+    .then((docs) => {
+      res.send("Board title updated");
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
 module.exports = router;
