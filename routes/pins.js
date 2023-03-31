@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const mongodb = require("mongodb");
-const multer = require("multer");
 
 const upload = require("../utils/pins-upload");
 const PinsModel = require("../models/PinsModel");
