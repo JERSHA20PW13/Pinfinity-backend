@@ -33,7 +33,7 @@ router.post("/create-pin", upload.single("pin"), (req, res) => {
 router.get("/get-pins/:userid", (req, res) => {
   PinsModel.find({ userid: req.params.userid })
     .then((docs) => {
-      res.send(docs);
+      res.send(docs.reverse());
     })
     .catch((err) => {
       console.error(err);
